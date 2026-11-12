@@ -56,7 +56,7 @@ nav div{display:flex;gap:26px;align-items:center}
 
 /* EQUIPO */
 .team{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:40px 28px;margin-top:7vh}
-.av{aspect-ratio:4/5;display:grid;place-items:center;font:300 4rem var(--d);margin-bottom:16px;background:linear-gradient(var(--a),#3a3a42,#101012);color:rgba(255,255,255,.85);clip-path:polygon(0 0,100% 6%,100% 100%,0 94%);transition:clip-path .5s}
+.av{aspect-ratio:3/4;margin-bottom:16px;overflow:hidden;background:#111;clip-path:polygon(0 0,100% 6%,100% 100%,0 94%);transition:clip-path .5s}.av img{width:100%;height:100%;object-fit:cover;object-position:50% 20%;display:block;filter:grayscale(1) contrast(1.05);transition:filter .6s,transform .9s cubic-bezier(.2,.7,.2,1)}.who:hover .av img{filter:none;transform:scale(1.05)}
 .who:hover .av{clip-path:polygon(0 6%,100% 0,100% 94%,0 100%)}
 .who h3{font-size:1.35rem;font-weight:600}.who p{color:var(--mut);font-size:.95rem;margin-top:6px}
 
@@ -97,7 +97,7 @@ footer{background:var(--p);padding:6vh 4vw;color:var(--mut);font-size:.9rem;bord
   <h1 data-split>Diseñamos lo que todavía no existe</h1>
   <div class="ctas"><a href="#contacto">Cuéntanos tu proyecto <span>→</span></a><a href="#servicios">Ver qué hacemos <span>→</span></a></div>
   <div class="fact"><b>Cuatro perfiles, una visión.</b>Eventos, marcas y licitaciones: del concepto a la producción, con estética.</div>
-  <div class="hint">Mantén presionado para desarmar la estructura</div>
+  <div class="hint">Desliza</div>
 </section>
 
 <section class="sec" id="idea"><h2 data-split>Una idea suelta no llega lejos. La ordenamos, la diseñamos y la dejamos lista para que una productora la haga realidad.</h2></section>
@@ -110,10 +110,10 @@ footer{background:var(--p);padding:6vh 4vw;color:var(--mut);font-size:.9rem;bord
 <section class="sec" id="equipo">
   <h2 data-split>Cuatro perfiles, una sola visión</h2>
   <div class="team">
-    <article class="who"><div class="av" style="--a:160deg">SS</div><h3>Samuel Suros</h3><p>Diseñador gráfico · Modelador y animador 2D + 3D · Desarrollador IA</p></article>
-    <article class="who"><div class="av" style="--a:200deg">DR</div><h3>Dubraska Rodríguez</h3><p>Diseñadora industrial · Conceptualizadora IA</p></article>
-    <article class="who"><div class="av" style="--a:130deg">HL</div><h3>Héctor López</h3><p>Diseñador gráfico · Animador 2D · Conceptualizador IA</p></article>
-    <article class="who"><div class="av" style="--a:230deg">SH</div><h3>Samuel Hernández</h3><p>Diseñador gráfico · Modelador y animador 2D + 3D · Conceptualizador IA</p></article>
+    <article class="who"><div class="av"><img src="img/samuel-suros.webp" alt="Retrato de Samuel Suros" loading="lazy" width="720" height="960"></div><h3>Samuel Suros</h3><p>Diseñador gráfico · Modelador y animador 2D + 3D · Desarrollador IA</p></article>
+    <article class="who"><div class="av"><img src="img/dubraska-rodriguez.webp" alt="Retrato de Dubraska Rodríguez" loading="lazy" width="720" height="960"></div><h3>Dubraska Rodríguez</h3><p>Diseñadora industrial · Conceptualizadora IA</p></article>
+    <article class="who"><div class="av"><img src="img/hector-lopez.webp" alt="Retrato de Héctor López" loading="lazy" width="720" height="960"></div><h3>Héctor López</h3><p>Diseñador gráfico · Animador 2D · Conceptualizador IA</p></article>
+    <article class="who"><div class="av"><img src="img/samuel-hernandez.webp" alt="Retrato de Samuel Hernández" loading="lazy" width="720" height="960"></div><h3>Samuel Hernández</h3><p>Diseñador gráfico · Modelador y animador 2D + 3D · Conceptualizador IA</p></article>
   </div>
 </section>
 
@@ -147,7 +147,6 @@ footer{background:var(--p);padding:6vh 4vw;color:var(--mut);font-size:.9rem;bord
 <footer>© 2026 Obscura · Nombre y datos de contacto provisionales</footer>
 </main>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
 // ---------- Texto por palabras ----------
 document.querySelectorAll('[data-split]').forEach(function(e){var t=e.textContent.trim().split(/\s+/);e.setAttribute('aria-label',t.join(' '));
@@ -175,43 +174,37 @@ J.forEach(function(j){var d=document.createElement('article');d.className='pj';d
 C.forEach(function(c,i){var b=document.createElement('button');b.textContent=c;b.setAttribute('aria-pressed',i==0);b.onclick=function(){[].forEach.call(fl.children,function(x){x.setAttribute('aria-pressed',x==b)});[].forEach.call(g.children,function(p){p.classList.toggle('hide',c!='Todos'&&p.dataset.c!=c)})};fl.appendChild(b)});
 document.getElementById('f').onsubmit=function(e){e.preventDefault();var f=e.target;location.href='mailto:hola@tuagencia.com?subject='+encodeURIComponent('Proyecto de '+f.n.value)+'&body='+encodeURIComponent(f.m.value+'\n\n'+f.e.value)};
 
-// ---------- Truss 3D (tramo de 0.5 m, escala ×4) ----------
+// ---------- Onda de fondo (WebGL, sin librerías) ----------
 (function(){
-if(!window.THREE)return;
-var cv=document.getElementById('gl'),R;
-try{R=new THREE.WebGLRenderer({canvas:cv,antialias:true,alpha:true})}catch(e){return}
-R.setPixelRatio(Math.min(devicePixelRatio,1.75));
-var sc=new THREE.Scene(),cam=new THREE.PerspectiveCamera(35,1,.1,60);
-// entorno: cajas de luz para reflejos
-var env=new THREE.Scene();env.background=new THREE.Color(0x040405);
-function sb(w,h,x,y,z,i){var m=new THREE.Mesh(new THREE.PlaneGeometry(w,h),new THREE.MeshBasicMaterial({color:new THREE.Color(i,i,i),side:2}));m.position.set(x,y,z);m.lookAt(0,0,0);env.add(m)}
-sb(8,2,0,6,2,7);sb(2,9,-6,0,2,3.5);sb(1,7,6,1,-3,5);sb(9,1,0,-6,3,1.6);
-sc.environment=new THREE.PMREMGenerator(R).fromScene(env,.04).texture;
-var key=new THREE.DirectionalLight(0xffffff,.9);key.position.set(3,4,5);sc.add(key);
-var mat=new THREE.MeshPhysicalMaterial({color:0x17171b,metalness:.95,roughness:.26,clearcoat:.7,clearcoatRoughness:.18,envMapIntensity:1.5});
-var G=new THREE.Group(),parts=[],V=THREE.Vector3;
-function add(m,dir){m.userData={o:m.position.clone(),q:m.quaternion.clone(),d:dir||m.position.clone().normalize().add(new V(Math.random()-.5,Math.random()-.5,Math.random()-.5)).normalize(),r:new V(Math.random()-.5,Math.random()-.5,Math.random()-.5).multiplyScalar(5)};G.add(m);parts.push(m)}
-function tube(a,b,r){var d=b.clone().sub(a),m=new THREE.Mesh(new THREE.CylinderGeometry(r,r,d.length(),16),mat);m.position.copy(a).add(b).multiplyScalar(.5);m.quaternion.setFromUnitVectors(new V(0,1,0),d.clone().normalize());add(m)}
-var h=.58,n=4,st=2/n;
-[[-h,-h],[-h,h],[h,-h],[h,h]].forEach(function(c){tube(new V(-1,c[0],c[1]),new V(1,c[0],c[1]),.1)});
-for(var f=0;f<4;f++)for(var i=0;i<n;i++){var x0=-1+i*st,x1=x0+st,a=i%2?h:-h,b=i%2?-h:h,s=f%2?h:-h;
- var p=function(x,v){return f<2?new V(x,v,s):new V(x,s,v)};tube(p(x0,a),p(x1,b),.045)}
-[-1,1].forEach(function(x){var m=new THREE.Mesh(new THREE.BoxGeometry(.08,1.5,1.5),mat);m.position.set(x,0,0);add(m,new V(x,0,0))});
-G.rotation.set(.45,-.6,.1);sc.add(G);
-var hold=false,e=0,mx=0,my=0;
-hero.addEventListener('pointerdown',function(ev){if(!ev.target.closest('a'))hold=true});
-['pointerup','pointercancel','pointerleave'].forEach(function(t){addEventListener(t,function(){hold=false})});
-hero.addEventListener('pointermove',function(ev){mx=ev.clientX/innerWidth-.5;my=ev.clientY/innerHeight-.5});
-function size(){var w=innerWidth,hh=innerHeight;R.setSize(w,hh,false);cam.aspect=w/hh;cam.position.set(0,0,w<760?13:9);cam.updateProjectionMatrix()}
+var cv=document.getElementById('gl'),gl=cv.getContext('webgl',{antialias:false});
+if(!gl){cv.style.display='none';return}
+var vs='attribute vec2 a;void main(){gl_Position=vec4(a,0.,1.);}';
+var fs='precision mediump float;uniform float t;uniform vec2 r;uniform vec2 m;'+
+'float h(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}'+
+'void main(){vec2 p=(gl_FragCoord.xy-.5*r)/r.y;p-=m*.04;'+
+'float wide=step(1.2,r.x/r.y);p.x-=wide*.32;float k=t*.12;'+
+'float w=.34*sin(p.y*2.4+k*2.+sin(p.x*1.3+k)*.9)+.08*sin(p.y*5.+k*3.);'+
+'float d=p.x-w;float core=exp(-d*d*7.);float halo=exp(-d*d*1.6)*.35;'+
+'float tone=smoothstep(-.55,.45,p.y+.15*sin(k*2.));'+
+'vec3 c=mix(vec3(.34,.31,.32),vec3(.17,.27,.62),tone)*(core*.85+halo*.5);'+
+'c+=vec3(.05,.06,.1)*exp(-(d+.55)*(d+.55)*9.)*.8;'+
+'c*=smoothstep(1.25,.2,length(p+vec2(wide*.32,0.)));'+
+'c+=(h(gl_FragCoord.xy+t)-.5)*.02;gl_FragColor=vec4(max(c,0.),1.);}';
+function sh(type,src){var s=gl.createShader(type);gl.shaderSource(s,src);gl.compileShader(s);return s}
+var pr=gl.createProgram();gl.attachShader(pr,sh(gl.VERTEX_SHADER,vs));gl.attachShader(pr,sh(gl.FRAGMENT_SHADER,fs));gl.linkProgram(pr);
+if(!gl.getProgramParameter(pr,gl.LINK_STATUS)){cv.style.display='none';return}
+gl.useProgram(pr);
+var bf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,bf);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);
+var loc=gl.getAttribLocation(pr,'a');gl.enableVertexAttribArray(loc);gl.vertexAttribPointer(loc,2,gl.FLOAT,false,0,0);
+var uT=gl.getUniformLocation(pr,'t'),uR=gl.getUniformLocation(pr,'r'),uM=gl.getUniformLocation(pr,'m');
+function size(){cv.width=Math.round(innerWidth*.6);cv.height=Math.round(innerHeight*.6);gl.viewport(0,0,cv.width,cv.height)}
 addEventListener('resize',size);size();
-var t0=0;
-function loop(t){requestAnimationFrame(loop);var s=scrollY/innerHeight;if(s>1.3)return;
- e+=((hold?1:0)-e)*.07;var k=e*e*(3-2*e);
- parts.forEach(function(m){var u=m.userData;m.position.copy(u.o).addScaledVector(u.d,k*3);m.rotation.set(u.r.x*k,u.r.y*k,u.r.z*k)});
- var idle=still?0:t*.0002;
- G.rotation.y+=((-.6+idle+mx*.8+s*1.6)-G.rotation.y)*.06;G.rotation.x+=((.45+my*.4)-G.rotation.x)*.06;
- var side=innerWidth<760?0:1.9-s*1.2;G.position.set(side,innerWidth<760?-1.8:0,-s*3);
- cv.style.opacity=Math.max(0,1-s*.95);R.render(sc,cam)}
+var mx=0,my=0,sx=0,sy=0;
+hero.addEventListener('pointermove',function(e){mx=e.clientX/innerWidth-.5;my=.5-e.clientY/innerHeight});
+function loop(ms){requestAnimationFrame(loop);var s=scrollY/innerHeight;if(s>1.3)return;
+ sx+=(mx-sx)*.05;sy+=(my-sy)*.05;
+ gl.uniform1f(uT,still?8:ms/1000);gl.uniform2f(uR,cv.width,cv.height);gl.uniform2f(uM,sx,sy);
+ cv.style.opacity=Math.max(0,1-s*.95);gl.drawArrays(gl.TRIANGLES,0,3)}
 requestAnimationFrame(loop);
 })();
 </script>
